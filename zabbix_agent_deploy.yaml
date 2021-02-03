@@ -1,0 +1,60 @@
+- hosts: all
+  become: true
+  become_method: sudo
+
+  tasks:
+
+  #Istall rpm repository
+
+  - name: install repository
+    command: -Uvh https://repo.zabbix.com/zabbix/5.2/rhel/8/x86_64/zabbix-release-5.2-1.el8.noarch.rpm -y
+             dnf clean all
+
+  #Intall Agent
+
+  - name: install zabbix agent
+    dnf:
+      name: '{{item}}'
+    with items:
+      -zabbix_agent
+    when: "'zabbix_agents' in group names"
+
+   #Create config file for zabbix agent
+
+  - name: Create zabbix .conf file
+       template:
+         src: zabbix-agent-config.j2
+         dest: /etc/zabbix/zabbix_agentd.conf
+       when: "'zabbix_agent' in group_names"
+
+  #Add firewall rules
+
+  - name: add active ports
+  - firewalld:
+      port: 10050-10051/tcp
+      permanent: true
+      state: enabled
+
+  #Reload firewall
+
+  - name: Reload service firewalld, in all cases
+    ansible.builtin.systemd:
+      name: firewalld
+      state: reloaded
+
+  #Start Zabbix service
+
+  - name: Reload service firewalld, in all cases
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        state: started
+
+  #Enable zabbix server
+
+  - name: enable service zabbix-server
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        state: enabled
+
+
+

@@ -1,0 +1,6 @@
+[zabbix_agents]
+zabbix_agent_1 ansible_host=192.168.10.2 ansible_port=22
+zabbix_agent_2 ansible_host=192.168.10.3 ansible_port=22
+zabbix_agent_3 ansible_host=192.168.10.4 ansible_port=22
+[zabbix_server]
+zabbix_server ansible_host=192.168.10.2 ansible_port=22
