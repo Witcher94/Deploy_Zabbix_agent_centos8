@@ -118,7 +118,7 @@ xies.
 # Default:
 # Server=
 
-Server="{{groups['zabbix_server'][0][ansible_host]}}"
+Server={{ hostvars[groups['zabbix_servers'][0]].ansible_host }}
 
 ### Option: ListenPort
 #       Agent will listen on this port for connections from the server.
@@ -161,7 +161,7 @@ ListenPort=10050
 # Default:
 # ServerActive=
 
-ServerActive="{{groups['zabbix_server'][0][ansible_host]}}"
+ServerActive={{ hostvars[groups['zabbix_servers'][0]].ansible_host }}
 
 ### Option: Hostname
 #       List of comma delimited unique, case sensitive hostnames.
