@@ -48,14 +48,7 @@
       name: firewalld
       state: reloaded
 
-  #Start Zabbix service
-
-  - name: Reload service firewalld, in all cases
-    ansible.builtin.systemd:
-      name: zabbix-agent
-      state: started
-
-  #Enable zabbix server
+  #Starting and enabling zabbix server
 
   - name: enable service zabbix-server
     ansible.builtin.systemd:
